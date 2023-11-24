@@ -9,14 +9,14 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/users.model';
 import { UserRoles } from './user-roles.model';
 
-interface RoleCreateAttrs {
+interface RoleCreationAttrs {
   value: string;
   description: string;
 }
 
 @Table({ tableName: 'roles' })
-export class Role extends Model<Role, RoleCreateAttrs> {
-  @ApiProperty({ example: '1', description: 'ID' })
+export class Role extends Model<Role, RoleCreationAttrs> {
+  @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -25,17 +25,12 @@ export class Role extends Model<Role, RoleCreateAttrs> {
   })
   id: number;
 
-  @ApiProperty({ example: 'ADMIN', description: 'Unique role meaning' })
-  @Column({
-    type: DataType.STRING,
-    unique: true,
-  })
+  @ApiProperty({ example: 'ADMIN', description: 'Уникальное Значение роли ' })
+  @Column({ type: DataType.STRING, unique: true, allowNull: false })
   value: string;
 
-  @ApiProperty({ example: 'It is admin', description: 'Role description' })
-  @Column({
-    type: DataType.STRING,
-  })
+  @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
+  @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
   @BelongsToMany(() => User, () => UserRoles)
